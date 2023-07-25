@@ -28,7 +28,7 @@ from DSAI_VertexAI_Model.DSAI_Risk_Prediction import DriverRiskPrediction
 from DSAI_VertexAI_Model.DSAI_Risk_Classification import DriverRiskClassification
 
 from DSAI_Regression_Model.DSAI_Regression_Impl import Regression_Model
-# from DSAI_Classification_Model.DSAI_Classification_Impl import
+from DSAI_Classification_Model.DSAI_Classification_Impl import Classification_Model
 
 import os
 
@@ -68,7 +68,7 @@ if __name__=='__main__':
             Regression_Model()
             
         elif vAR_option=="Classification":
-            DriverRiskClassification()
+            Classification_Model()
 
 
 

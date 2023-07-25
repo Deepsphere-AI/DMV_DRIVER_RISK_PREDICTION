@@ -24,3 +24,5 @@ pipreqs
 altair<5
 google-cloud-aiplatform
 scikit-learn
+matplotlib
+seaborn
