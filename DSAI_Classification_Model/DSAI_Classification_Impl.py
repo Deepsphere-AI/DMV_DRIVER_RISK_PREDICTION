@@ -221,13 +221,13 @@ def Statistics_Details(vAR_df):
         
         vAR_st.write('')
         vAR_st.write('')
-        vAR_st.subheader('Statistics Details')
+        vAR_st.subheader('Stats on Training Data')
         
     with col4:
         
         vAR_st.write('')
         vAR_st.write('')
-        vAR_data_stats = vAR_st.button("Get Statistics Details")
+        vAR_data_stats = vAR_st.button("View Training Data Stats")
                 
     if vAR_data_stats:
         
