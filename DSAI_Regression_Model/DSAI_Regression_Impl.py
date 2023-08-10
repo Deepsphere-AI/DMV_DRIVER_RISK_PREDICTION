@@ -194,7 +194,10 @@ def Statistics_Details(vAR_df):
 def Feature_Selection(vAR_df):
     
     col1,col2,col3,col4,col5 = vAR_st.columns([1,9,1,9,2])
-    vAR_columns = vAR_df.columns
+    vAR_columns = list(vAR_df.columns)
+    vAR_columns.remove("Risk_Score")
+    vAR_columns.remove("Normalized_Risk_Score")
+    
     
             
     with col2:
@@ -248,7 +251,6 @@ def Model_Implementation(vAR_df):
         col1,col2,col3 = vAR_st.columns([3,10,1.5])
         with col2:
             vAR_st.info("Data Preprocessing Completed!")
-            vAR_st.info("Test and Training Dataset Splitted!")
             vAR_st.info("Regression Model Successfully Trained")
             
             
@@ -277,7 +279,7 @@ def Train_Model(vAR_df):
         y = data_encoded['Normalized_Risk_Score']
 
         # Splitting the Data
-        X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+        X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=None, random_state=42)
         
         
         # print('X_test - ',X_test.iloc[0])
