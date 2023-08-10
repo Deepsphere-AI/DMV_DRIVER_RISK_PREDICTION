@@ -195,8 +195,11 @@ def Feature_Selection(vAR_df):
     
     col1,col2,col3,col4,col5 = vAR_st.columns([1,9,1,9,2])
     vAR_columns = list(vAR_df.columns)
-    vAR_columns.remove("Risk_Score")
-    vAR_columns.remove("Normalized_Risk_Score")
+    
+    if "Risk_Score" in vAR_columns:
+        vAR_columns.remove("Risk_Score")
+    if "Normalized_Risk_Score" in vAR_columns:
+        vAR_columns.remove("Normalized_Risk_Score")
     
     
             
