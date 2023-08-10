@@ -334,7 +334,7 @@ def Model_Implementation(vAR_df):
         col1,col2,col3 = vAR_st.columns([3,10,1.5])
         with col2:
             vAR_st.info("Data Preprocessing Completed!")
-            vAR_st.info("Regression Model Successfully Trained")
+            vAR_st.info("Classification Model Successfully Trained")
             
             
         vAR_model = Train_Model(vAR_df)
