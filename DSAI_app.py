@@ -55,16 +55,18 @@ if __name__=='__main__':
             
         with col4:
             vAR_st.write('')
-            vAR_option = vAR_st.selectbox('',('Select a Model',"Regression","Classification","Vertex AI - Regression (Deployed Model)","Vertex AI - Classification (Deployed Model)"))
+            vAR_option = vAR_st.selectbox('',('Select a Model',"Regression","Classification"))
+            
+            # vAR_option = vAR_st.selectbox('',('Select a Model',"Regression","Classification","Vertex AI - Regression (Deployed Model)","Vertex AI - Classification (Deployed Model)"))
             
 
-        if vAR_option=="Vertex AI - Regression (Deployed Model)":
-            DriverRiskPrediction()
+        # if vAR_option=="Vertex AI - Regression (Deployed Model)":
+        #     DriverRiskPrediction()
         
-        elif vAR_option=="Vertex AI - Classification (Deployed Model)":
-            DriverRiskClassification()
+        # elif vAR_option=="Vertex AI - Classification (Deployed Model)":
+        #     DriverRiskClassification()
             
-        elif vAR_option=="Regression":
+        if vAR_option=="Regression":
             Regression_Model()
             
         elif vAR_option=="Classification":
