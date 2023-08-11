@@ -20,15 +20,22 @@ Google Cloud Serverless Computing   | DMV Consultant  | Ajay Gupta | Initial  | 
 
 import streamlit as vAR_st
 import pandas as pd
+import matplotlib.pyplot as plt
+import seaborn as sns
+import numpy as np
+import traceback
+import shap
 
 from sklearn.model_selection import train_test_split
-from sklearn.preprocessing import OneHotEncoder
 from sklearn.linear_model import LinearRegression
 
 
 def Regression_Model():
+    
+    # try:
 
     col1,col2,col3,col4,col5 = vAR_st.columns([1,9,1,9,2])
+    vAR_result_data = pd.DataFrame()
     with col2:
         vAR_st.write('')
         vAR_st.write('')
@@ -39,10 +46,11 @@ def Regression_Model():
         vAR_dataset = vAR_st.file_uploader("Choose a file",type=['csv'],key="train")
         
     if vAR_dataset is not None:
+        vAR_outcome_analysis = False
         vAR_df = pd.read_csv(vAR_dataset)
         
         Preview_Data(vAR_df,"Training")
-              
+            
         Statistics_Details(vAR_df)
         
         Feature_Selection(vAR_df)
@@ -62,7 +70,7 @@ def Regression_Model():
             
         if vAR_test_dataset is not None:   
             vAR_test_data = pd.read_csv(vAR_test_dataset)
-             
+            
             # Preview Test Data
                 
             Preview_Data(vAR_test_data,"Test")
@@ -95,6 +103,7 @@ def Regression_Model():
                 
                     vAR_test_data["Predicted_Score"] = vAR_model.predict(data_encoded)
                     
+                    print('model - ',vAR_model)
                     vAR_st.write(vAR_test_data)
                     
                 col1,col2,col3,col4,col5 = vAR_st.columns([1,9,1,9,2])
@@ -110,6 +119,64 @@ def Regression_Model():
     mime='text/csv',
 )
                     
+                    vAR_st.write('')
+                    vAR_st.write('')
+                    
+            
+            col1,col2,col3,col4,col5 = vAR_st.columns([1,9,1,9,2])
+                
+            with col4:
+                vAR_outcome_analysis = vAR_st.button("Model Outcome Analysis")
+                    
+                
+                
+                    
+            if vAR_outcome_analysis:
+                
+                data_encoded = pd.get_dummies(vAR_test_data, columns=['Vehicle_Type'], drop_first=True)
+                
+                vAR_model = Train_Model(vAR_df)
+                
+                vAR_test_data["Predicted_Score"] = vAR_model.predict(data_encoded)
+                
+                
+                    
+                # if len(vAR_result_data)>0:
+                df = vAR_test_data.drop(["Vehicle_Type"],axis=1)
+                
+                col1,col2,col3,col4,col5 = vAR_st.columns([1,9,1,9,2])
+                
+                with col2:
+                    vAR_st.write('')
+                    vAR_st.write('')
+                    vAR_st.info("Correlation Between Features")
+                    plot_correlation_matrix(df)
+                    
+                    
+                    
+                with col4:
+                    vAR_st.write('')
+                    vAR_st.write('')
+                    vAR_st.info("Distribution of Predicted_Score")
+                    plot_score_distribution(df)
+                    
+                col1,col2,col3 = vAR_st.columns([1,15,1])
+                
+                with col2:
+                    
+                    vAR_st.write('')
+                    vAR_st.write('')
+                    vAR_st.markdown("<div style='text-align: center; color: black;'>Risk Score Variation with Features in ScatterPlot</div>", unsafe_allow_html=True)
+                    vAR_st.write('')
+                    vAR_st.write('')
+                    plot_scatter_matrix(df)
+                    
+                            
+                        
+    # except BaseException as e:
+    #     print('Exception occurs in regression model - ',str(e))
+        
+    #     print('Exception traceback occurs in regression model - ',traceback.print_exc(str(e)))
                     
                     
                     
@@ -214,7 +281,7 @@ def Feature_Selection(vAR_df):
         
         vAR_st.write('')
         vAR_st.write('')
-        vAR_features = vAR_st.multiselect('',vAR_columns)
+        vAR_features = vAR_st.multiselect(' ',vAR_columns)
         vAR_st.write('')
         vAR_st.write('')
         
@@ -264,9 +331,7 @@ def Model_Implementation(vAR_df):
     
     
     
-    
-    
-    
+
 def Train_Model(vAR_df):
     col1,col2,col3 = vAR_st.columns([1.5,10,1.5])
     
@@ -300,3 +365,25 @@ def Train_Model(vAR_df):
 
         
     return model
+
+
+# Model Outcome Analysis Functions
+    
+def plot_correlation_matrix(data):
+    print('df len - ',len(data))
+    correlation_matrix = data.corr()
+    plt.figure(figsize=(8, 8))
+    # plt.title("Correlation Between Features")
+    sns.heatmap(correlation_matrix, annot=True, cmap="coolwarm")
+    vAR_st.pyplot(plt)
+    
+    
+def plot_score_distribution(data,x='Predicted_Score'):
+    sns.displot(data['Predicted_Score'])
+    # plt.title(f'Distribution of Predicted_Score')
+    vAR_st.pyplot(plt)
+
+
+def plot_scatter_matrix(df):
+    sns.pairplot(df)
+    vAR_st.pyplot(plt)

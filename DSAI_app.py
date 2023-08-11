@@ -55,7 +55,7 @@ if __name__=='__main__':
             
         with col4:
             vAR_st.write('')
-            vAR_option = vAR_st.selectbox('',('Select a Model',"Regression","Classification"))
+            vAR_option = vAR_st.selectbox(' ',('Select a Model',"Regression","Classification"))
             
             # vAR_option = vAR_st.selectbox('',('Select a Model',"Regression","Classification","Vertex AI - Regression (Deployed Model)","Vertex AI - Classification (Deployed Model)"))
             
