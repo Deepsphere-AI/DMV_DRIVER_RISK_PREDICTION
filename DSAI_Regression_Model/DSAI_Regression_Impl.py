@@ -58,6 +58,11 @@ def Regression_Model():
         vAR_model = Model_Implementation(vAR_df)
         
         
+        # if 'vAR_model' not in vAR_st.session_state:
+        #     vAR_st.session_state['vAR_model'] = vAR_model
+        #     print('model in session - ',vAR_model)
+        
+        
         col1,col2,col3,col4,col5 = vAR_st.columns([1,9,1,9,2])
         with col2:
             vAR_st.write('')
@@ -95,6 +100,8 @@ def Regression_Model():
                 data_encoded = pd.get_dummies(vAR_test_data, columns=['Vehicle_Type'], drop_first=True)
                 
                 vAR_model = Train_Model(vAR_df)
+                
+                # vAR_model = vAR_st.session_state.vAR_model
                 
                 col1,col2,col3 = vAR_st.columns([3,15,1])
                 
@@ -160,6 +167,8 @@ def Regression_Model():
                     vAR_st.info("Distribution of Predicted_Score")
                     plot_score_distribution(df)
                     
+                    
+                    
                 col1,col2,col3 = vAR_st.columns([1,15,1])
                 
                 with col2:
@@ -169,7 +178,7 @@ def Regression_Model():
                     vAR_st.markdown("<div style='text-align: center; color: black;'>Risk Score Variation with Features in ScatterPlot</div>", unsafe_allow_html=True)
                     vAR_st.write('')
                     vAR_st.write('')
-                    plot_scatter_matrix(df)
+                    plot_scatter_matrix(vAR_test_data)
                     
                             
                         
@@ -385,5 +394,28 @@ def plot_score_distribution(data,x='Predicted_Score'):
 
 
 def plot_scatter_matrix(df):
-    sns.pairplot(df)
+    sns.pairplot(df,hue='Vehicle_Type')
     vAR_st.pyplot(plt)
+
+
+
+
+
+# Logic for Risk Score Calculation
+
+# weights = {
+#     'Conviction Points': 10,
+#     'Geo Risk': 5,
+#     'Years of Experience': -3,
+#     'Vehicle Type': {'Car': 0, 'Motorcycle': 10},
+#     'Age': lambda age: 10 if age < 25 else 0
+# }
+
+# # Calculate risk score for each row
+# data['Risk Score'] = (
+#     data['Conviction Points'] * weights['Conviction Points'] +
+#     data['Geo Risk'] * weights['Geo Risk'] +
+#     data['Years of Experience'] * weights['Years of Experience'] +
+#     data['Vehicle Type'].map(weights['Vehicle Type']) +
+#     data['Age'].apply(weights['Age'])
+# )

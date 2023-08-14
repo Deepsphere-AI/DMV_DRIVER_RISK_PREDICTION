@@ -27,3 +27,4 @@ scikit-learn
 matplotlib
 seaborn
 shap
+snowflake-connector-python
