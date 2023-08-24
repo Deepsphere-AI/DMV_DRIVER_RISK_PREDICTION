@@ -1,8 +1,105 @@
+/* .css-7ym5gk {
+    display: inline-flex;
+    -webkit-box-align: center;
+    align-items: center;
+    -webkit-box-pack: center;
+    justify-content: center;
+    font-weight: 400;
+    padding: 8px 23px 8px 14px;
+    border-radius: 0.5rem;
+    min-height: 38.4px;
+    margin: 0px;
+    line-height: 1.6;
+    color: inherit;
+    width: 391px;
+    user-select: none;
+    background-color: rgb(47 236 106);
+    border: 1px solid rgba(49, 51, 63, 0.2);} */
 
+    #root > div:nth-child(1) > div.withScreencast > div > div > div > section.css-vk3wp9.eczjsme11 > div.css-6qob1r.eczjsme3 > div.css-1544g2n.eczjsme4 > div > div:nth-child(1) > div > div:nth-child(4) > div{
+        width: 298px;
+    padding: 0px 0px 32px 3px;
+    }
+
+    #root > div:nth-child(1) > div.withScreencast > div > div > div > section.main.css-uf99v8.ea3mdgi5 > div.block-container.css-z5fcl4.ea3mdgi4 > div:nth-child(1) > div > div:nth-child(22) > div.css-1ftygcr.e1f1d6gn1 > div:nth-child(1) > div > div:nth-child(8) > div > div{
+        padding: 0px 1px 10px 182px;
+    }
+
+#root > div:nth-child(1) > div.withScreencast > div > div > div > section.css-vk3wp9.eczjsme11 > div.css-6qob1r.eczjsme3 > div.css-1544g2n.eczjsme4 > div > div:nth-child(1) > div > div.css-ocqkz7.e1f1d6gn3{
+    padding: 0px 35px 0px 40px;
+}
 .css-1vq4p4l {
     padding: 6rem 1rem 1.5rem;
     background-color: #4c85e4;
 }
+
+.css-1544g2n {
+    padding: 3rem 1rem 1.5rem;
+}
+
+#root > div:nth-child(1) > div.withScreencast > div > div > div > section.css-vk3wp9.eczjsme11 > div.css-6qob1r.eczjsme3 > div.css-1544g2n.eczjsme4 > div > div:nth-child(1) > div > div:nth-child(10) > div{
+    width: 100%;
+    text-align: center;
+    padding: 0px 20px 0px 42px;
+}
+
+.css-z5fcl4 {
+    width: 100%;
+    padding: 1rem 3rem 8rem;
+    min-width: auto;
+    max-width: initial;
+}
+
+.css-1balh2r {
+    width: 298px;
+    position: relative;
+    display: flex;
+    flex: 1 1 0%;
+    flex-direction: column;
+    gap: 0.2rem;
+}
+
+#root > div:nth-child(1) > div.withScreencast > div > div > div > section.css-vk3wp9.eczjsme11 > div.css-6qob1r.eczjsme3 > div.css-1544g2n.eczjsme4 > div > div:nth-child(1) > div > div:nth-child(10) > div > div{
+    padding: 18px 21px 0px 8px;
+}
+
+#root > div:nth-child(1) > div.withScreencast > div > div > div > section.css-vk3wp9.eczjsme11 > div.css-6qob1r.eczjsme3 > div.css-1544g2n.eczjsme4 > div > div:nth-child(1) > div > div:nth-child(7) > div > div > form > input[type=submit]{
+    width: 100%;
+    border-radius: 5px;
+    background: #32CD32;
+    height: 42px;
+    border:hidden;
+}
+
+.css-16idsys p {
+    word-break: break-word;
+    margin-bottom: 0px;
+    font-size: 14px;
+    color: black;
+}
+
+#root > div:nth-child(1) > div.withScreencast > div > div > div > section.main.css-uf99v8.ea3mdgi5 > div.block-container.css-z5fcl4.ea3mdgi4 > div:nth-child(1) > div > div:nth-child(19) > div.css-1ftygcr.e1f1d6gn1 > div:nth-child(1) > div > div:nth-child(8) > div > div{
+    padding: 10px 20px 30px 160px;
+}
+
+#root > div:nth-child(1) > div.withScreencast > div > div > div > section.main.css-k1vhr4.egzxvld3 > div > div:nth-child(1) > div > div:nth-child(19) > div.css-1ftygcr.e1tzin5v2 > div:nth-child(1) > div > div:nth-child(8){
+    padding: 10px 20px 30px 245px;
+}
+
+#root > div:nth-child(1) > div.withScreencast > div > div > div > section.main.css-k1vhr4.egzxvld3 > div > div:nth-child(1) > div > div:nth-child(18) > div.css-1ftygcr.e1tzin5v2 > div:nth-child(1) > div > div:nth-child(8){
+    padding: 10px 20px 30px 215px;
+}
+
+.lime.explanation {
+    width: 350px;
+    padding: 10px 20px 30px 100px;
+}
+
+#top_divGNMTZXFK9N6A80K > div.lime.explanation{
+    width: 350px;
+    padding: 2px 16px 41px 69px;
+}
+
 
 
 .css-q6e24o{
@@ -26,7 +123,7 @@
     position: relative;
     height: 100%;
     width: 100%;
-    overflow: overlay;
+    overflow: scroll;
     background-color: #4c85e4;
 }
 
@@ -256,6 +353,7 @@
     flex-flow: row wrap;
     row-gap: 1rem;
     text-align: center;
+    margin-top: 2rem;
 }
 .st-dt {
     background-color: grey;
@@ -448,9 +546,7 @@ iframe {
 .css-13izhro, .css-7r184n{
 gap: 0.5rem !important;
 }
-.css-6qob1r{
-    overflow: initial !important;
-}
+
 
 .css-81oif8{
 margin-bottom:0px !important;

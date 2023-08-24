@@ -29,8 +29,10 @@ from DSAI_VertexAI_Model.DSAI_Risk_Classification import DriverRiskClassificatio
 
 from DSAI_Regression_Model.DSAI_Regression_Impl import Regression_Model
 from DSAI_Classification_Model.DSAI_Classification_Impl import Classification_Model
+from DSAI_RAG_LLM.DSAI_RAG_LLM_Impl import LLM_RAG
 
 import os
+import base64
 
 
 
@@ -69,11 +71,24 @@ if __name__=='__main__':
         if vAR_option=="Regression":
             Regression_Model()
             
+                        
         elif vAR_option=="Classification":
             Classification_Model()
+            
+            # elif vAR_option=="Play with LLM-RAG(Retrieval Augmented Generation)":
+            #     LLM_RAG()
+            
+        
+        
 
 
-
+    except KeyError as exception:
+        print('Key Error - ',str(exception))
+        # vAR_st.error(str(exception))
+        pass
+    
+    
+        
 
     except BaseException as exception:
         print('Error in main function - ', exception)

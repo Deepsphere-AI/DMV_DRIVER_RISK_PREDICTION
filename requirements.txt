@@ -19,7 +19,7 @@
 
 
 
-streamlit==1.16.0
+streamlit
 pipreqs
 altair<5
 google-cloud-aiplatform
@@ -28,3 +28,12 @@ matplotlib
 seaborn
 shap
 snowflake-connector-python
+lime
+ipython
+langchain==0.0.268
+pydantic==1.10.9
+openai
+tabulate
+seaborn
+wikipedia
+google-search-results
