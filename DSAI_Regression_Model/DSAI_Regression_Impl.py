@@ -109,7 +109,7 @@ def Regression_Model():
         
             
             # Preview Test Data
-                
+            vAR_test_data.drop('Risk_Score', axis=1,errors="ignore",inplace=True)
             Preview_Data(vAR_test_data,"Test")
             
             
@@ -135,14 +135,21 @@ def Regression_Model():
             col1,col2,col3 = vAR_st.columns([3,15,1])
             
             with col2:
+                vAR_df_columns = vAR_test_data.columns
+        
+                vAR_numeric_columns = vAR_test_data._get_numeric_data().columns 
                 
-                data_encoded = pd.get_dummies(vAR_test_data, columns=['Vehicle_Type'], drop_first=True)
+                vAR_categorical_column = list(set(vAR_df_columns) - set(vAR_numeric_columns))
+                
+                data_encoded = pd.get_dummies(vAR_test_data, columns=vAR_categorical_column)
                 
                 vAR_test_data["Predicted_Score"] = vAR_model.predict(data_encoded)
                 
                 if "vAR_test_data_reg" not in vAR_st.session_state:
                     vAR_st.session_state["vAR_test_data_reg"] = vAR_test_data
                 
+                vAR_st.write('')
+                vAR_st.write('')
                 vAR_st.write(vAR_test_data)
                 if not vAR_tested:
                     vAR_st.session_state["vAR_tested"] = True
@@ -175,8 +182,14 @@ def Regression_Model():
                 
             col1,col2,col3,col4,col5 = vAR_st.columns([1,9,1,9,2])
             if vAR_outcome_analysis:
-                                    
-                df = vAR_st.session_state["vAR_test_data_reg"].drop(["Vehicle_Type"],axis=1)
+                
+                vAR_df_columns = vAR_test_data.columns
+        
+                vAR_numeric_columns = vAR_test_data._get_numeric_data().columns 
+                
+                vAR_categorical_column = list(set(vAR_df_columns) - set(vAR_numeric_columns))
+                
+                df = vAR_st.session_state["vAR_test_data_reg"].drop(vAR_categorical_column,axis=1)
                 
                 
                 
@@ -223,16 +236,22 @@ def Regression_Model():
                 
             
             if vAR_test_id!='Select Driver Id': 
-                data_encoded = pd.get_dummies(vAR_test_data, columns=['Vehicle_Type'], drop_first=True)
+                vAR_df_columns = vAR_test_data.columns
+        
+                vAR_numeric_columns = vAR_test_data._get_numeric_data().columns 
                 
-                data_encoded.rename(columns = {'Vehicle_Type_Motorcycle':'Vehicle_Type'}, inplace = True)
-                data_encoded2 = data_encoded.drop(["Predicted_Score"],axis=1,errors='ignore')
-                features = data_encoded2.columns
+                vAR_categorical_column = list(set(vAR_df_columns) - set(vAR_numeric_columns))
+                data_encoded = pd.get_dummies(vAR_test_data, columns=vAR_categorical_column)
+                
+                # data_encoded.rename(columns = {'Vehicle_Type_Motorcycle':'Vehicle_Type'}, inplace = True)
+                # data_encoded2 = data_encoded.drop(["Predicted_Score"],axis=1,errors='ignore')
+                features = data_encoded.columns
                 col1,col2,col3 = vAR_st.columns([1,15,1])
                 
                 with col2:
-                    
                     vAR_st.write('')
+                    vAR_st.markdown('<hr style="border:2px solid gray;">', unsafe_allow_html=True)
+                    
                     vAR_st.write('')
                     vAR_st.markdown("<div style='text-align: center; color: black;font-weight:bold;'>Explainable AI with LIME(Local  Interpretable Model-agnostic Explanations) Technique</div>", unsafe_allow_html=True)
                     vAR_st.write('')
@@ -325,8 +344,6 @@ def Statistics_Details(vAR_df):
             vAR_st.write('')
             vAR_st.write('')
             vAR_st.write(vAR_df.describe(),height=200)
-        
-
 
 def Feature_Selection(vAR_df):
     
@@ -336,6 +353,8 @@ def Feature_Selection(vAR_df):
     
     if "Risk_Score" in vAR_columns:
         vAR_columns.remove("Risk_Score")
+    # To remove last column(target column)
+    vAR_columns.pop()
     if "Normalized_Risk_Score" in vAR_columns:
         vAR_columns.remove("Normalized_Risk_Score")
     
@@ -376,14 +395,30 @@ def Train_Model(vAR_df):
     
     with col2:
         # Preprocessing
-        data_encoded = pd.get_dummies(vAR_df, columns=['Vehicle_Type'], drop_first=True)
+        
+        vAR_df_columns = vAR_df.columns
+        
+        vAR_numeric_columns = vAR_df._get_numeric_data().columns 
+        
+        vAR_categorical_column = list(set(vAR_df_columns) - set(vAR_numeric_columns))
+        
+        vAR_train_df = vAR_df.drop(vAR_df.columns[-1],axis=1)
+        
+        
+        data_encoded = pd.get_dummies(vAR_train_df, columns=vAR_categorical_column)
         
         
 
         # Define features and target
-        X = data_encoded.drop('Normalized_Risk_Score', axis=1)
-        X = X.drop('Risk_Score', axis=1)
-        y = data_encoded['Normalized_Risk_Score']
+        # Remove this later, for dataset which doesn't contain Risk_Score column
+        X = data_encoded.drop('Risk_Score', axis=1,errors="ignore",inplace=True)
+        
+        X = data_encoded
+        
+        y = vAR_df.iloc[: , -1:]
+        
+        print('xcols - ',X.columns)
+        print('ycols - ',y.columns)
 
         # Splitting the Data
         X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=None, random_state=42)
@@ -426,14 +461,24 @@ def plot_score_distribution(data,x='Predicted_Score'):
 
 
 def plot_scatter_matrix(df):
-    sns.pairplot(df,hue='Vehicle_Type',kind='scatter')
+    
+    vAR_df_columns = df.columns
+        
+    vAR_numeric_columns = df._get_numeric_data().columns 
+    
+    vAR_categorical_column = list(set(vAR_df_columns) - set(vAR_numeric_columns))
+    
+    if len(vAR_categorical_column)>0:
+        sns.pairplot(df,hue=vAR_categorical_column[0],kind='scatter')
+    else:
+        sns.pairplot(df,kind='scatter')
     vAR_st.pyplot(plt)
     
 def ExplainableAI(X_train,features,vAR_model,vAR_test_data,test_id):
     
-    print('train type - ',type(X_train))
-    print('vAR_test_data - ',type(vAR_test_data))
-    print('dtypes - ',vAR_test_data.dtypes)
+    print('train cols - ',(X_train.columns))
+    print('feature cols - ',(features))
+    
     explainer_lime = lime_tabular.LimeTabularExplainer(X_train.values,
                                                    feature_names=features,
                                                    verbose=True,

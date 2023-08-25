@@ -117,17 +117,15 @@ def Classification_Model():
         
                 
         if vAR_test:
+            vAR_df_columns = vAR_test_data.columns
+        
+            vAR_numeric_columns = vAR_test_data._get_numeric_data().columns 
+            
+            vAR_categorical_column = list(set(vAR_df_columns) - set(vAR_numeric_columns))
             
             vAR_model = vAR_st.session_state['vAR_model']
-            # One-hot encoding for 'Vehicle_Type'
-            one_hot = OneHotEncoder()
-            vehicle_type_encoded = one_hot.fit_transform(vAR_test_data[['Vehicle_Type']]).toarray()
-            vehicle_type_encoded_df = pd.DataFrame(vehicle_type_encoded, columns=one_hot.categories_[0])
-
-            # Add the one-hot encoded variables to the dataset and remove the original 'Vehicle_Type' column
-            data_encoded = pd.concat([vAR_test_data, vehicle_type_encoded_df], axis=1)
-            data_encoded.drop(['Vehicle_Type'], axis=1, inplace=True)
-
+            
+            data_encoded = pd.get_dummies(vAR_test_data, columns=vAR_categorical_column)
             
             # Logistic Regression requires feature scaling, so let's scale our features
             scaler = StandardScaler()
@@ -161,6 +159,8 @@ def Classification_Model():
                 if "vAR_test_data" not in vAR_st.session_state:
                     vAR_st.session_state["vAR_test_data"] = vAR_test_data
                 
+                vAR_st.write('')
+                vAR_st.write('')
                 vAR_st.write(vAR_test_data)
                 
                 if "vAR_tested_log" not in  vAR_st.session_state:
@@ -190,8 +190,13 @@ def Classification_Model():
                     
             if vAR_outcome_analysis:
                 
+                vAR_df_columns = vAR_df.columns
+        
+                vAR_numeric_columns = vAR_df._get_numeric_data().columns 
                 
-                df = vAR_st.session_state["vAR_test_data"].drop(["Vehicle_Type"],axis=1)
+                vAR_categorical_column = list(set(vAR_df_columns) - set(vAR_numeric_columns))
+                            
+                df = vAR_st.session_state["vAR_test_data"].drop(vAR_categorical_column,axis=1,errors="ignore")
                 
                 print('outcome analysis test data cols1 - ',df.columns)
                 
@@ -217,7 +222,7 @@ def Classification_Model():
                 col1,col2,col3 = vAR_st.columns([1,15,1])
                 
                 with col2:
-                    
+                    vAR_st.markdown('<hr style="border:2px solid gray;">', unsafe_allow_html=True)
                     vAR_st.write('')
                     vAR_st.write('')
                     vAR_st.markdown("<div style='text-align: center; color: black;'>Risk Level Variation with Features in ScatterPlot</div>", unsafe_allow_html=True)
@@ -251,23 +256,26 @@ def Classification_Model():
                 
             
             if vAR_test_id!='Select Driver Id': 
-                # One-hot encoding for 'Vehicle_Type'
-                one_hot = OneHotEncoder()
-                vehicle_type_encoded = one_hot.fit_transform(vAR_test_data[['Vehicle_Type']]).toarray()
-                vehicle_type_encoded_df = pd.DataFrame(vehicle_type_encoded, columns=one_hot.categories_[0])
-
-                # Add the one-hot encoded variables to the dataset and remove the original 'Vehicle_Type' column
-                data_encoded = pd.concat([vAR_test_data, vehicle_type_encoded_df], axis=1)
-                data_encoded.drop(['Vehicle_Type'], axis=1, inplace=True)
+                
+                
+                vAR_df_columns = vAR_test_data.columns
+        
+                vAR_numeric_columns = vAR_test_data._get_numeric_data().columns 
+                
+                vAR_categorical_column = list(set(vAR_df_columns) - set(vAR_numeric_columns))
+                
+                data_encoded = pd.get_dummies(vAR_test_data, columns=vAR_categorical_column)
                 
                 vAR_model,X_train = vAR_st.session_state["vAR_model"],vAR_st.session_state["X_train"]
                 features = X_train.columns
+                
                 print('features - ',features)
                 col1,col2,col3 = vAR_st.columns([1,15,1])
                 
                 with col2:
                     
                     vAR_st.write('')
+                    vAR_st.markdown('<hr style="border:2px solid gray;">', unsafe_allow_html=True)
                     vAR_st.write('')
                     vAR_st.markdown("<div style='text-align: center; color: black;font-weight:bold;'>Explainable AI with LIME(Local  Interpretable Model-agnostic Explanations) Technique</div>", unsafe_allow_html=True)
                     vAR_st.write('')
@@ -363,8 +371,9 @@ def Feature_Selection(vAR_df):
     col1,col2,col3,col4,col5 = vAR_st.columns([1,9,1,9,2])
     vAR_columns.extend(list(vAR_df.columns))
     
-    if "Risk_Level" in vAR_columns:
-        vAR_columns.remove("Risk_Level")
+    vAR_columns.pop()
+    
+        
     
             
     with col2:
@@ -398,29 +407,36 @@ def Feature_Selection(vAR_df):
     
 def Train_Model(vAR_df):
     
+    vAR_train_df = vAR_df.drop(vAR_df.columns[-1],axis=1)
     
-
-    # One-hot encoding for 'Vehicle_Type'
-    one_hot = OneHotEncoder()
-    vehicle_type_encoded = one_hot.fit_transform(vAR_df[['Vehicle_Type']]).toarray()
-    vehicle_type_encoded_df = pd.DataFrame(vehicle_type_encoded, columns=one_hot.categories_[0])
+    vAR_df_columns = vAR_train_df.columns
+        
+    vAR_numeric_columns = vAR_train_df._get_numeric_data().columns 
+    
+    vAR_categorical_column = list(set(vAR_df_columns) - set(vAR_numeric_columns))
+    
+    
+    data_encoded = pd.get_dummies(vAR_train_df, columns=vAR_categorical_column)
+    
+    print('data_encoded cols - ',data_encoded.columns)
 
     # Add the one-hot encoded variables to the dataset and remove the original 'Vehicle_Type' column
-    data_encoded = pd.concat([vAR_df, vehicle_type_encoded_df], axis=1)
-    data_encoded.drop(['Vehicle_Type'], axis=1, inplace=True)
+    # data_encoded.drop(vAR_categorical_column, axis=1, inplace=True)
 
     # Label encoding for 'Risk_Level'
     label_enc = LabelEncoder()
-    data_encoded['Risk_Level'] = label_enc.fit_transform(data_encoded['Risk_Level'])
+    data_encoded['Risk_Level'] = label_enc.fit_transform(data_encoded[data_encoded.columns[-1]])
 
     # Split the data into features (X) and target (y)
-    X = data_encoded.drop(['Risk_Level'], axis=1)
-    y = data_encoded['Risk_Level']
+    X = data_encoded.drop(data_encoded.columns[-1],axis=1)
+    y = vAR_df.iloc[: , -1:]
+    
+    print('X cols - ',X.columns)
+    print('y cols - ',y.columns)
 
     # Split the data into training and test sets
     X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=None, random_state=42)
 
-    X_train.head(), y_train.head()
     
     
 
@@ -462,7 +478,16 @@ def plot_score_distribution(data):
     
     
 def plot_scatter_matrix(df):
-    sns.pairplot(df,hue='Vehicle_Type',kind='scatter')
+    vAR_df_columns = df.columns
+        
+    vAR_numeric_columns = df._get_numeric_data().columns 
+    
+    vAR_categorical_column = list(set(vAR_df_columns) - set(vAR_numeric_columns))
+    
+    if len(vAR_categorical_column)>0:
+        sns.pairplot(df,hue=vAR_categorical_column[0],kind='scatter')
+    else:
+        sns.pairplot(df,kind='scatter')
     vAR_st.pyplot(plt)
 
 def ExplainableAI(X_train,features,vAR_model,vAR_test_data,test_id):
