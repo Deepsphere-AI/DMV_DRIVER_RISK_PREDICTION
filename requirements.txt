@@ -19,10 +19,11 @@
 
 
 
-streamlit
+streamlit==1.25.0
 pipreqs
 altair<5
 google-cloud-aiplatform
+google-cloud-bigquery
 scikit-learn
 matplotlib
 seaborn
@@ -37,3 +38,5 @@ tabulate
 seaborn
 wikipedia
 google-search-results
+sweetviz
+db-dtypes

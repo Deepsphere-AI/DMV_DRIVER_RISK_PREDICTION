@@ -34,6 +34,7 @@ import base64
 
 
 
+
 def Regression_Model():
     
     # if "vAR_model" not in vAR_st.session_state: 
@@ -67,6 +68,8 @@ def Regression_Model():
         Feature_Selection(vAR_df)
         
         col1,col2,col3,col4,col5 = vAR_st.columns([1,9,1,9,2])
+        
+        
             
         with col2:
             

@@ -16,6 +16,12 @@
     background-color: rgb(47 236 106);
     border: 1px solid rgba(49, 51, 63, 0.2);} */
 
+    #root > div:nth-child(1) > div.withScreencast > div > div > div > section.main.css-uf99v8.ea3mdgi5 > div.block-container.css-z5fcl4.ea3mdgi4 > div:nth-child(1) > div > div:nth-child(13) > div:nth-child(4) > div:nth-child(1) > div > div:nth-child(1) > div > button{
+            width: 100%;
+            padding: 8px 0px 8px 0px;
+            background: rgb(47 236 106);
+    }
+
     #root > div:nth-child(1) > div.withScreencast > div > div > div > section.css-vk3wp9.eczjsme11 > div.css-6qob1r.eczjsme3 > div.css-1544g2n.eczjsme4 > div > div:nth-child(1) > div > div:nth-child(4) > div{
         width: 298px;
     padding: 0px 0px 32px 3px;
